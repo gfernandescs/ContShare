@@ -15,7 +15,7 @@ function LoadAjaxContent(url){
 		url: url,
 		type: 'GET',
 		success: function(data) {
-			$('#ajax-content').html(data);
+			$('#ajax-content').html(data);			
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			alert(errorThrown);

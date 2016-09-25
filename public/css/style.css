@@ -2072,7 +2072,6 @@ td.beauty-hover {
 }
 .preloader {
   position: absolute;
-  margin-top:50px;
   width: 100%;
   height: 100%;
   left: 0;
@@ -2283,8 +2282,8 @@ td.beauty-hover {
 /*meus codigos ===========================================================================================================================*/
 .config_group{
   float:right;
-  height: 40px;
-  width: 38px;  
+  height: 32px;
+  width: 30px;  
 }
 .container-files{
   width: 100%;
@@ -2355,9 +2354,7 @@ td.beauty-hover {
 	margin-top: 15px;
 }
 
-.cont-profile{
-	margin-left: 70px;
-}
+
 
 .profile{
 	min-height: 905px !important;
@@ -2563,8 +2560,4 @@ td.beauty-hover {
 	float:none;
 	margin: 0;
   }
-  .cont-profile{
-	margin-left: 0;
-}
-
 }

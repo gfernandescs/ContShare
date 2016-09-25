@@ -11,8 +11,39 @@
 |
 */
 
-Route::get('/',['uses' => 'FileController@getGroups']);
+
+
+Route::auth();
+
+
+
+/*
+*Dashboard
+*/
+Route::get('/',['uses' => 'PagesController@getIndex'])->name('home');
+Route::get('/grupo/{group}',['uses' => 'FileController@getFiles'])->name('files.showFile');
+
+/*****************************************************/
+
+Route::get('/groups/{id?}',['uses' => 'FileController@index']);
+
+Route::get('/searchConts/{id}/{value}/{profile?}',['uses' => 'SearchController@searchConts']);
+Route::get('/searchUsers/{value?}',['uses' => 'SearchController@searchUsers']);
+
+Route::get('/notificationUsers',['uses' => 'NotificationUsersController@index'])->name('NotificationUsers.index');
+/*****************************************************/
+
+/*
+*Profile
+*/
+Route::get('/{id}',['uses' => 'PagesController@getProfile']);
+Route::get('/{id?}/grupo/{group}/{id_file?}',['uses' => 'FileController@getFilesProfile'])->name('files.showFile');
+Route::get('/{id}/seguindo',['uses' => 'FollowingController@index']);
+Route::get('/{id}/seguidores',['uses' => 'FollowerController@index']);
+
+Route::resource('files', 'FileController');
+Route::resource('users', 'UserController');
+Route::resource('followings', 'FollowingController');
+Route::resource('followers', 'FollowerController');
 
 Route::post('/fetch',['uses' => 'FetchUrlController@fetch']);
-
-Route::get('/{group}',['uses' => 'FileController@getFiles']);

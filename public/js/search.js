@@ -1,82 +1,72 @@
 var req;
 var xhr = null;
  
-// Função para pesquisa
-function search(valor) {
- 
-// Verificando Browser
-if(window.XMLHttpRequest) {
-   req = new XMLHttpRequest();
-}
-else if(window.ActiveXObject) {
-   req = new ActiveXObject("Microsoft.XMLHTTP");
-}
- 
-// Arquivo PHP juntamente com o valor digitado no campo (método GET)
-var url = "control/control_search.php?value="+valor;
- 
-// Chamada do método open para processar a requisição
-req.open("Get", url, true);
- 
-// Quando o objeto recebe o retorno, chamamos a seguinte função;
-req.onreadystatechange = function() {
- 	
-	// Exibe a mensagem "Buscando..." enquanto carrega
-	if(req.readyState == 1) {
-		document.getElementById('result').innerHTML = 'Buscando...';
+// Função para pesquisa de Usuarios
+function searchUsers(value) {
+	if(xhr != null){
+		xhr.abort();
 	}
+	xhr = $.ajax({
+		url: "/searchUsers/"+value,
+		success: function(data) {
+			$("#result").html(data);
+		}
+	});
+	/*if(xhr.readyState == 1) {
+		document.getElementById('result').innerHTML = "<div class='search'><img style='margin-left: 170px' width='50px' src='img/loading_searchUser.gif' ' alt='preloader'/></div>";
+	}*/
  
-	// Verifica se o Ajax realizou todas as operações corretamente
-	if(req.readyState == 4 && req.status == 200) {
- 
-	// Resposta retornada pelo busca.php
-	var resposta = req.responseText;
-	
-	// Abaixo colocamos a(s) resposta(s) na div resultado
-	document.getElementById('result').innerHTML = resposta;
-	}
-};
-req.send(null);
 }
+// Função para pesquisa de Links
+function searchConts(value,id_user,profile) {
+	$('.preloader').show();
 
-function searchConts(value,profile,user_on) {
 	if(value == ""){
 		if(xhr != null){
 			abort();
+			xhr.abort();
 		}
 		if(profile){
-			$(".cont-profile").load("contents_profile.php?u_code="+profile+" .row-fluid",function(){
-			    $.getScript("js/profile.js"); 
-			});
+			xhr = $.ajax({
+		        url: '/groups/'+id_user,
+		        success: function(data) {
+		        	$('.preloader').hide();
+		            $("#ajax-content").html(data);
+		        }
+        	});
 			
-
 		}else{		
-	        $(".row-fluid").load("contents.php .row-fluid",function(){
-			    $.getScript("js/ContShares.js"); 
-			});
+	        xhr = $.ajax({
+		        url: '/groups',
+		        success: function(data) {
+		        	$('.preloader').hide();
+		            $("#ajax-content").html(data);
+		        }
+        	});
 		}
 	}else{		
 		if(xhr != null){
 			abort();
+			xhr.abort();
 		}
 		if(profile){
-			if(location.hash != ""){
- 				window.history.pushState('Object', 'ContShare', 'profile.php?u_code='+profile);
+			if(location.pathname != ""){
+ 				window.history.pushState('Object', 'ContShare', '/'+id_user);
  			}
 			xhr = $.ajax({
-		        url: 'control/control_search.php?value_conts='+value+'&cod_user='+profile+'&user_on='+user_on,
+		        url: '/searchConts/'+id_user+'/'+value+'/1',
 		        success: function(data) {
-		            $(".cont-profile").html(data);
+		            $("#ajax-content").html(data);
 		        }
         	}); 
 		}else{
-			if(location.hash != ""){
- 				window.history.pushState('Object', 'ContShare', '/Contshare/');
+			if(location.pathname != ""){
+ 				window.history.pushState('Object', 'ContShare', '/');
  			}		
 	        xhr = $.ajax({
-		        url: 'control/control_search.php?value_conts='+value,
+		        url: '/searchConts/'+id_user+'/'+value,
 		        success: function(data) {
-		            $(".row-fluid").html(data);
+		            $("#ajax-content").html(data);
 		        }
         	}); 
 		}		       

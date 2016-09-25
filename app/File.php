@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class File extends Model
 {
-    
+    public function notification()
+    {
+        return $this->hasOne('App\Notification');
+    }
 }

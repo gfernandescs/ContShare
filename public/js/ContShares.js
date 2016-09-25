@@ -9,6 +9,10 @@ var request 	 = new Array();
 var cont 		 = 0;
 var number_group = 0;
 function extracturl(url,code) {
+	var div   = document.getElementById(code);
+	var img   = div.getElementsByTagName('img');
+	var title = div.getElementsByTagName('a');
+
 	if (url != "" && url.indexOf("://") > -1) {	
 		request[cont] = $.ajax({
 			type : 'post',
@@ -19,19 +23,16 @@ function extracturl(url,code) {
 				_token: token
 			},
 			success : function(response) {			
-				//console.log(response);
-				$('.preloader').hide();
-					$("#"+code).attr("src", response.img);
-
-				
-
+				$('.preloader').hide();				
+				$(img).attr("src", response.img);
+				$(title).attr("title", response.title);
 			},
 			async: true
 		});
 	}
-	cont ++;		
+	cont ++;
+			
 }
-
 function extracturlProfile(url, comment, code, group, n, cod_user,user_on, searchConts) {
 	var div = "<div tabindex = '-1' class='conts file' id='" + code + "'> </div>";
 	var val = url;
@@ -140,23 +141,25 @@ function editProfile(cod_user) {
 /*
  * função ajax para deletar um file.
  */
-function deleteFile(cod_file) {
+function deleteFile(id) {
 	//abri um modal para confirmar.
 	bootbox.confirm("Deseja Excluir?", function(result) {
 		if (result) {
-			var id_file = cod_file;
+			var method  = "DELETE"; 
+			var id_file = id;
 
 			$.ajax({
 				type : 'post',
-				url : 'index.php',
+				url : '/files/'+id,
 				data : {
-					cod_file : cod_file
+					id_file : id,
+					_method : method,
+					_token: token
 				},
 				success : function(response) {
-					$("#" + cod_file).hide("scale", {
+					$("#" + id_file).hide("scale", {
 						direction : "left"
 					}, "slow");
-					//$( "#"+cod_file).remove();
 				}
 			});
 		}
@@ -168,12 +171,16 @@ function deleteFile(cod_file) {
  */
 jQuery('.saveFile').submit(function(){	
 	var dados = jQuery(".saveFile").serialize();
+	var route = $('input[name="route"]', this).val();
+ 
 	$.ajax({
 		type : 'post',
-		url : 'index.php',
+		url : route,
 		data : dados,
 		success : function(response) {
-				location.reload();				
+			$('#modalCopy').modal('hide');
+			$('#alert-success').html("Link Copiado :)").fadeIn('slow');
+			$('#alert-success').delay(1500).fadeOut('slow');				
 		}
 	});
 	return false;		
@@ -183,13 +190,19 @@ jQuery('.saveFile').submit(function(){
  * função ajax para atualizar um file.
  */
 jQuery('.updateFile').submit(function(){
-	var dados = jQuery(".updateFile").serialize();	
+	var dados   = jQuery(".updateFile").serialize();	
+	var id 	    = document.getElementById('file_id').value;
+	var comment = document.getElementById('comments_up').value;
 	$.ajax({
 		type : 'post',
-		url : 'index.php',
+		url : '/files/'+id,
 		data : dados,
 		success : function(response) {
-				location.reload();				
+			$('#modalUpd').modal('hide');
+			$('#alert-success').html("Link Editado ;)").fadeIn('slow');
+			$('#alert-success').delay(1500).fadeOut('slow');
+			document.getElementById('comment_'+id).innerHTML = comment;
+			
 		}
 	});
 	return false;
@@ -199,15 +212,16 @@ jQuery('.updateFile').submit(function(){
  * função ajax para atualizar titulo de um grupo.
  */
 jQuery('.updateGroup').submit(function(){
-	var dados = jQuery(".updateGroup").serialize();	
-	$.ajax({
+	var dados = jQuery(".updateGroup").serialize();
+	console.log(dados)	
+	/*$.ajax({
 		type : 'post',
 		url  : 'index.php',
 		data : dados,
 		success : function(response) {
 				location.reload();				
 		}
-	});
+	});*/
 	return false;
 });
 
@@ -219,77 +233,85 @@ jQuery('.updateGroup').submit(function(){
 /*
  * função ajax para salvar um novo seguidor.
  */
-function saveFollower(cod_user,cod_follower) {
+/*function saveFollower(route,id_user,id_follower) {
+	console.log(route,id_user,id_follower);
 	$.ajax({
 		type : 'post',
-		url : 'profile.php',
+		url : route,
 		data : {
-			cod_user_s: cod_user,
-			cod_follower_s: cod_follower
+			id_user: id_user,
+			id_follower: id_follower
 		},
+		success : function(response) {
+				//location.reload();				
+		}
+	});
+}*/
+jQuery('.saveFollower').submit(function(){
+	var dados = jQuery(this).serialize();
+	var route = $('input[name="route"]', this).val();
+
+	$.ajax({
+		type : 'post',
+		url  : route,
+		data : dados,
 		success : function(response) {
 				location.reload();				
 		}
 	});
-}
+	return false;
+});
 
 /*
  * função ajax para deletar um seguidor.
  */
-function deleteFollower(cod_user,cod_follower) {
-	//var cod_user     = document.getElementById('cod_user_r').value;
-	//var cod_follower = document.getElementById('cod_follower_r').value;
-	
-	//var cod_follower = document.getElementById("followers");
-	//var name = cod_follower.getElementsByTagName('input');
-	
+jQuery('.deleteFollower').submit(function(){
+	var dados = jQuery(this).serialize(); 
+	var id 	  = $('input[name="id_follower"]', this).val();
+
 	$.ajax({
 		type : 'post',
-		url : 'profile.php',
-		data : {
-			cod_user_r: cod_user,
-			cod_follower_r: cod_follower
-		},
+		url  : 'followings/'+id,
+		data : dados,
 		success : function(response) {
 				location.reload();				
 		}
 	});
-}
-
-
+	return false;
+});
 
 /*
  * pega valor do Dropdowns e coloca no input text (modal save)(modal copy)
  */
 
 function getDropdown(id) {
-	document.getElementById('groupsc').value = id;
+	document.getElementById('group_s').value = id;
 }
 /*
  * pega valor do Dropdowns e coloca no input text (modal update)
  */
 function getDropdownUp(id) {
-	document.getElementById('groupup').value = id;
+	document.getElementById('group_up').value = id;
 }
 
 /*
  * Preenche os campos do modal update(index.php)
  */
-function fillFildUpdate(cod_file){
-	var div  	 = document.getElementById(cod_file);
+function fillFildUpdate(id){
+	var div  	 = document.getElementById(id);
 	var url 	 = div.getElementsByTagName('a');
 	var comment  = div.getElementsByTagName('p');
 	var input 	 = div.getElementsByTagName('input');
 
-	document.getElementById('urlup').value  = url[2].href;
-	document.getElementById('commup').value = comment[0].innerHTML;
-	document.getElementById('groupup').value  = (input[0].value);
-	document.getElementById('txcode').value  = (cod_file);
+	document.getElementById('url_up').value  = url[0].href;
+	document.getElementById('comments_up').innerHTML = comment[0].innerHTML;
+	document.getElementById('group_up').value  = (input[0].value);
+	document.getElementById('file_id').value  = (id);
 	
 	if(input[1].value == "s"){		
-		document.getElementById("privateup").checked = true;
+		document.getElementById("priv_up").checked = true;
 	}else{
-		document.getElementById("privateup").checked = false;
+		document.getElementById("priv_up").checked = false;
 	}
 }
 /*
@@ -304,79 +326,72 @@ function fillFildEdit(name,last_name,avatar,about){
 /*
  * Preenche os campos do modal copyFile(profile.php)
  */
-function fillFildCopy(cod_file){
-	var div  	 = document.getElementById(cod_file);
+function fillFildCopy(id){
+	var div  	 = document.getElementById(id);
 	var url 	 = div.getElementsByTagName('a');
 	var comment  = div.getElementsByTagName('p');
 	var group 	 = div.getElementsByTagName('input');
 
-	document.getElementById('url').value  = url[1].href;
-	document.getElementById('comm').value = comment[0].innerHTML;
-	document.getElementById('groupsc').value  = (group[0].value);
-	document.getElementById('txcode').value  = (cod_file);
+	document.getElementById('url').value  = url[0].href;
+	document.getElementById('comments').value = comment[0].innerHTML;
+	document.getElementById('group_s').value  = (group[0].value);
+	document.getElementById('txcode').value  = (id);
 }
 
-$(document).ready(function () {
-	/*
-	 * Função que add no corpo da pagina (AJAX)
-	 */
-	$('.groups').on('click', 'a', function(e) {
+$(document).ready(function () {	
+	//RadioButton
+	$('#all_contents').on('click', function(e) {
 		if ($(this).hasClass('ajax-link')) {
 			e.preventDefault();
-			$('.preloader').show();
-			var url = $(this).attr('href');
-			window.location.hash = url;
+			if ($(this).hasClass('add-full')) {
+				$('#content').addClass('full-content');
+			} else {
+				$('#content').removeClass('full-content');
+			}
+			var url = "all_contents.php";
+			//window.location.hash = url;
 			LoadAjaxContent(url);
 		}
 		if ($(this).attr('href') == '#') {
 			e.preventDefault();
 		}
 	});
-});
-//RadioButton
-$('#all_contents').on('click', function(e) {
-	if ($(this).hasClass('ajax-link')) {
-		e.preventDefault();
-		if ($(this).hasClass('add-full')) {
-			$('#content').addClass('full-content');
-		} else {
-			$('#content').removeClass('full-content');
+	//RadioButton
+	$('#group').on('click', function(e) {
+		if ($(this).hasClass('ajax-link')) {
+			e.preventDefault();
+			if ($(this).hasClass('add-full')) {
+				$('#content').addClass('full-content');
+			} else {
+				$('#content').removeClass('full-content');
+			}
+			var url = "contents.php";
+			//window.location.hash = url;
+			LoadAjaxContent(url);
 		}
-		var url = "all_contents.php";
-		//window.location.hash = url;
-		LoadAjaxContent(url);
-	}
-	if ($(this).attr('href') == '#') {
-		e.preventDefault();
-	}
-});
-//RadioButton
-$('#group').on('click', function(e) {
-	if ($(this).hasClass('ajax-link')) {
-		e.preventDefault();
-		if ($(this).hasClass('add-full')) {
-			$('#content').addClass('full-content');
-		} else {
-			$('#content').removeClass('full-content');
+		if ($(this).attr('href') == '#') {
+			e.preventDefault();
 		}
-		var url = "contents.php";
-		//window.location.hash = url;
-		LoadAjaxContent(url);
-	}
-	if ($(this).attr('href') == '#') {
-		e.preventDefault();
-	}
+	});
+
 });
-
-
 /*
  * Função que faz funcionar botão voltar do navegador
  */
-window.onhashchange = function(e) {
+/*window.onhashchange = function(e) {
 	var pagina = window.location.hash.substring(1);
 	if(pagina.length==0){
-		location.reload(true);
+		LoadAjaxContent("/groups");
 	}else{
 		LoadAjaxContent(pagina);
 	}	  	
-};
+};*/
+window.addEventListener('popstate', function(e) {
+	var character = e.state;
+ 	if (character == null) {
+	   LoadAjaxContent("/groups");
+	} else {  	
+	    LoadAjaxContent(location.href);
+	}
+
+});

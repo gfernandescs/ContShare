@@ -24,7 +24,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function files(){
-        return this->hasMany('App\File')
+    public function followings()
+    {
+        return $this->hasMany('App\Followers','id_user');
     }
+
+    public function followers()
+    {
+        return $this->hasMany('App\Followers','id_follower');
+    }
+    
 }
