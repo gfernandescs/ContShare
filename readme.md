@@ -1,3 +1,13 @@
+# Instalação
+
+git clone https://github.com/gfernandescs/contShare.git;
+
+Na pasta do projeto, rodar "composer install";
+
+Configurar o arquivo .env;
+
+Importar o banco de dados (base_dados.sql);
+
 # Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
