@@ -170,13 +170,13 @@
 						<input type='text' id='search-conts' onkeyup='searchConts(this.value,{{$user->id}},1)' class='form-control' placeholder='Pesquisar' aria-describedby='basic-addon2'>
 					</div>
 				</div>
-				<div class="cont-profile">
+				<div class="row">
 					@include('includes.messages')
 					<div class='preloader' style="display: none">
                     <img width='80px' src='img/loading.gif' class='devoops-getdata' alt='preloader'/>
                 </div>					
 					<div id="ajax-content">
-						<div class="cont-profile">
+						<div class="">
 							@if(session('no_ajax'))
 		                        <script type="text/javascript">
 		                            $(document).ready(function () { 
@@ -213,7 +213,7 @@
 <script src="plugins/justified-gallery/jquery.justifiedgallery.min.js"></script>
 <script src="plugins/tinymce/tinymce.min.js"></script>
 <script src="plugins/tinymce/jquery.tinymce.min.js"></script>
-<script src="js/ContShares.js"></script>
+<script src="js/contShare.js"></script>
 <!-- All functions for this theme + document.ready processing -->
 <script src="{{asset('js/profile.js')}}"></script>
 <script src="{{asset('js/search.js')}}"></script>

@@ -26,10 +26,13 @@ function extracturl(url,code) {
 				$('.preloader').hide();				
 				$(img).attr("src", response.img);
 				$(title).attr("title", response.title);
+
+				
 			},
 			async: true
 		});
 	}
+	//return true
 	cont ++;
 			
 }
@@ -42,7 +45,7 @@ function extracturlProfile(url, comment, code, group, n, cod_user,user_on, searc
 	var cod_user = cod_user;
 	
 	//cria as divs dos links
-	//caso vir do campo pesquisa add de acordo com a div do grupo
+	//caso vir do campo de pesquisa irá adicionar de acordo com a div do grupo
 	if(searchConts == 0){		
 		$("._"+number_group).append(div);
 	}else{
@@ -83,6 +86,7 @@ function abort(){
 		request[i].abort();
 	}	
 }
+
 /*=====================================================
 	Funçoes AJAX
  =======================================================*/
@@ -142,7 +146,7 @@ function editProfile(cod_user) {
  * função ajax para deletar um file.
  */
 function deleteFile(id) {
-	//abri um modal para confirmar.
+	//abre um modal para confirmar.
 	bootbox.confirm("Deseja Excluir?", function(result) {
 		if (result) {
 			var method  = "DELETE"; 
@@ -154,7 +158,7 @@ function deleteFile(id) {
 				data : {
 					id_file : id,
 					_method : method,
-					_token: token
+					_token  : token
 				},
 				success : function(response) {
 					$("#" + id_file).hide("scale", {
@@ -190,9 +194,13 @@ jQuery('.saveFile').submit(function(){
  * função ajax para atualizar um file.
  */
 jQuery('.updateFile').submit(function(){
-	var dados   = jQuery(".updateFile").serialize();	
+	var dados   = jQuery(".updateFile").serialize();
+
 	var id 	    = document.getElementById('file_id').value;
 	var comment = document.getElementById('comments_up').value;
+	var priv    = document.querySelectorAll('[name=priv_up]:checked');;
+	
+
 	$.ajax({
 		type : 'post',
 		url : '/files/'+id,
@@ -201,8 +209,14 @@ jQuery('.updateFile').submit(function(){
 			$('#modalUpd').modal('hide');
 			$('#alert-success').html("Link Editado ;)").fadeIn('slow');
 			$('#alert-success').delay(1500).fadeOut('slow');
-			document.getElementById('comment_'+id).innerHTML = comment;
-			
+			$('#comment_'+id).html(comment);
+
+			if(priv.length > 0){
+				$('#'+id).css({borderTop:"2px solid red", borderBottom: "2px solid red" });
+			}else{
+				$('#'+id).css({borderTop:"", borderBottom: "" });
+			}
+				
 		}
 	});
 	return false;
@@ -375,6 +389,42 @@ $(document).ready(function () {
 	});
 
 });
+
+
+/*
+ * Botões menu(sidebar && sidebar-navbar)
+ */
+
+//Botão Inicio
+$('.index').on('click', 'a', function(e) {
+    e.preventDefault();
+    abort();	
+    $('#files').remove();
+    LoadAjaxContent('/groups');
+    history.pushState('', '', ''+'/groups'+'');
+});
+
+//Botão pesquisar
+$('#nav-searchconts').on('click', 'a', function(e) {
+    e.preventDefault();
+    /*$('#top-panel').remove();
+    $('.groups').remove();
+    $('.search-conts').show();
+    $('#input-search-conts').focus(); 
+    $('#sidebar-navbar').css( "margin-top", "0" );
+    $('#sidebar-navbar').css( "height", "50px" );
+    $('#main').css( "margin-top", "21px" );*/
+    LoadAjaxContent('/searchConts');
+    history.pushState('', '', ''+'/searchConts'+'');    
+});
+
+//Botão notificações
+$('#nav-notifications').on('click', 'a', function(e) {
+    e.preventDefault();
+    LoadAjaxContent('/notificationUsers');
+    history.pushState('', '', ''+'/notificationUsers'+'');    
+});
+
 /*
  * Função que faz funcionar botão voltar do navegador
  */

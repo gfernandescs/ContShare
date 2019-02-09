@@ -175,7 +175,6 @@ a.show-sidebar:hover {
 #main {
   margin-top: 50px;
   min-height: 800px;
-  overflow: hidden;
 }
 #search {
   position: relative;
@@ -2285,6 +2284,13 @@ td.beauty-hover {
 	-moz-box-shadow: 0px 0px 1em #666;
 	border-radius: 8px;
 }
+#sidebar-navbar {
+  display: none;
+  width: 100%;
+  height: 40px;
+  margin-top: 50px;
+  background: #fff;
+}
 .info-f{
 	margin-top: 25px;
 	margin-left: 35%;
@@ -2325,9 +2331,7 @@ td.beauty-hover {
 }
 
 .cont-profile{
-	width: 80%;
-	padding-left: 18px;
-	margin-left:11%;
+  margin-left: 14%;
 }
 
 .profile{
@@ -2345,8 +2349,8 @@ td.beauty-hover {
 	margin-left: 25%;
 }
 .photo > img{
-	width: 155px;
-	height: 150px;
+	width: 190px;
+	height: 170px;
 }
 
 .search{
@@ -2383,8 +2387,7 @@ td.beauty-hover {
 	border-radius: 5px;
 }
 .groups_profile{
-  margin-left: 2%;
-  margin-top: 70px;
+  margin-left: 16%;
 }
 .title-group{
 	font-weight:bold;
@@ -2402,6 +2405,9 @@ td.beauty-hover {
 }
 
 @media (max-width: 950px){
+  .cont-profile{
+    margin-left: 0;
+  }
 	.photo{
 	margin-left: 18%;
    }
@@ -2433,7 +2439,6 @@ td.beauty-hover {
   
 }
 @media (min-width: 992px) {
-	
   .nav.main-menu > li > a, .nav.msg-menu > li > a {
     text-align: left;
   }
@@ -2464,6 +2469,13 @@ td.beauty-hover {
   
 }
 @media (max-width: 767px) {
+
+ #logo{
+  display: none;
+ }
+  .groups_profile{
+    margin-left:8%;
+  }
   .photo{
 	margin-left: 15%;
   }
@@ -2515,7 +2527,8 @@ td.beauty-hover {
   }
 }
 @media (max-width: 620px) {
-   
+
+
   .user-mini {
     display: none;
   }

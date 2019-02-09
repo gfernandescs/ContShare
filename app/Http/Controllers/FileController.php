@@ -24,7 +24,7 @@ class FileController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index($id = null)
+    public function index(Request $request, $id = null)
     {
         if(!$id){
             $id = auth()->user()->id;
@@ -32,8 +32,19 @@ class FileController extends Controller
         }else{
             $is_profile = 1;
         }
+        
         $groups = File::distinct()->select('group')->where('id_user', '=', $id)->groupBy('group')->get();
-        return view('groups',['groups' => $groups, 'is_profile' => $is_profile, 'id_user' => $id]);
+
+        if($request->ajax()){
+            return view('groups',[
+                'groups' => $groups, 
+                'is_profile' => $is_profile, 
+                'id_user' => $id
+            ]);
+        }else{
+           return redirect('/')->with('no_ajax', $request->path());
+        }
+        
     }
 
     public function getFiles(Request $request, $groups)
@@ -77,6 +88,7 @@ class FileController extends Controller
            return redirect('/'.$id)->with('no_ajax', $request->path());
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -179,6 +191,13 @@ class FileController extends Controller
             $file->url     = $request->input("url_up");
             $file->group   = $request->input("group_up");
             $file->comment = $request->input("comments_up");
+
+            if($request->priv_up){
+                $file->private = "s";
+            }else{
+                $file->private = "n";
+            }
+
             $file->save();
         }else{
             //Atualiza apenas o titulo do grupo

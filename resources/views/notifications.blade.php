@@ -36,6 +36,10 @@
 			margin-left: 60px;
 			font-size: 14px;
 		}
+		.date-notification{
+			color: #999;
+			margin-left: -60px
+		}
 		.tooltipster-sidetip .tooltipster-box {
 			background: #ebebeb;
 			border: 1px solid #525252;
@@ -43,7 +47,36 @@
 		}
 		.tooltipster-sidetip .tooltipster-content{padding: 6px 1px;}
 		.tooltipster-sidetip.tooltipster-bottom .tooltipster-arrow-background{border-bottom-color: #ebebeb}
-		.tooltipster-sidetip.tooltipster-bottom .tooltipster-arrow-border{border-bottom-color: #525252}		
+		.tooltipster-sidetip.tooltipster-bottom .tooltipster-arrow-border{border-bottom-color: #525252}	
+
+		#nav-notifications{
+			background-color: rgba(236, 227, 227, 0.87);
+			border-radius: 3px;
+		}
+		#nav-notifications a{
+			color: #2f6798;
+		}
+
+		/*Mobile*/
+		@media (max-width: 767px){
+			#notifications-list {
+			height: 100%;
+			width: 100%;
+		}
+		.description {
+			margin-left: 17%;
+			font-size: 14px;
+		}
+		.date-notification{
+			color: #999;
+			margin-left: -16%;
+		}
+		@media (min-width: 500px){
+			.photo-notif{
+				height: 70px;
+			}
+		}
+		}	
 	</style>
 </head>
 <div id="notifications-list" >
@@ -61,7 +94,7 @@
 							<b>{{$notification['file']->comment}}</b>
 							<br />
 							{{substr($notification['file']->url, 0, 45)."..."}}
-							<div style="color: #999;margin-left: -60px">
+							<div class="date-notification">
 								@if(Date::now()->format('Ymd')*12 > Date::parse($notification['notification']->date)->format('Ymd')*12)						
 									{{Date::parse($notification['notification']->date)->format('l j F Y H:i')}}
 								@else

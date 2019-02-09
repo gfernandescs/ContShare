@@ -54,11 +54,18 @@ class PagesController extends Controller
 
     public function getProfile(int $id){
 
-        $followers_user   = User::find($id);
-
+        
         $user             = User::where('id', $id)->get();
+
+        //Tratando se existe o usuário
+        if ($user->count() < 1){
+          return "Usuário não existe";
+        }
+        
         $groups           = File::distinct()->select('group')->where('id_user', '=', $id)->groupBy('group')->get();
         $count_files      = File::all()->where('id_user', $id)->where('private', "n")->count();
+
+        $followers_user   = User::find($id);
         $count_followings = $followers_user->followings->count();
         $count_followers  = $followers_user->followers->count();
 
@@ -94,8 +101,9 @@ class PagesController extends Controller
                 $is_following = false;
             }
         }else{
-            $groups_modal = false;
-            $is_following = false;
+            $groups_modal  = false;
+            $is_following  = false;
+            $notifications = false;
         }
 
         return view('layouts.profile',[

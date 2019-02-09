@@ -1,7 +1,7 @@
 <div id="sidebar-left" class="col-xs-2 col-sm-2">
 	<ul class="nav main-menu">
-		<li title="Início">
-			<a href="/" >
+		<li title="Início" class="index">
+			<a href="/groups" >
 			<i class="glyphicon glyphicon-home"></i>
 			<span class="hidden-xs">Início</span>
 			</a>
@@ -42,4 +42,5 @@
 		@endforelse
 	</ul>
 </div>
-@include('includes.modalSave')	
+
+@include('includes.modalSave')

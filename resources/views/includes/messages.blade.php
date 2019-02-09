@@ -14,7 +14,6 @@
 	}
 </style>
 <div class="alert alert-success" id="alert-success" role="alert" >
-aaaaaa
 </div>
 
 <script>

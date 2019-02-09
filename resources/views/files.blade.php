@@ -1,7 +1,7 @@
 <script >
 		var token = '{{Session::token()}}';
 </script>
-<div class="row-fluid">
+<div class="{{isset($profile) ? 'col-md-9 cont-profile' : 'row-fluid'}}">
 
 	<div id='files' class='container-files'>
 
@@ -39,14 +39,14 @@
 								<span class='glyphicon glyphicon-remove'></span> 
 							</button>
 							<button class='btn btn-info btn-lg' id='btn-update' data-toggle='modal' data-target='#modalUpd' 
-									onclick='fillFildUpdate({{$file->id}})'>Editar
+									onclick='fillFildUpdate({{$file->id}})'>
 								<span class='glyphicon glyphicon-pencil'></span>
 							</button>
 						@endif
 						   
 						<input type='hidden' id='txgroup' value='{{$file->group}}'>
 						<input type='hidden' id='private' value='{{$file->private}}'>	 
-						<a href="{{$file->url}}" target="_blank">
+						<a href="{{$file->url}}" target="_blank" class="toolt" id="link_file">
 							<div class='img-file'><img class='img' ></div>
 						</a>
 						<div class='comment' id="comment_{{$file->id}}"><p>{{$file->comment}}</p></div>
@@ -55,6 +55,7 @@
 				
 				
 			extracturl('{{$file->url}}','{{$file->id}}')
+			
 			</script>
 
 			

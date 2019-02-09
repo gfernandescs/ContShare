@@ -18,7 +18,7 @@ class NotificationUsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = array();
         $file = array();
@@ -50,9 +50,16 @@ class NotificationUsersController extends Controller
             NotificationUsersController::destroy($limit);
             
         }
-        return view('notifications',[
-            'notifications' => $notification
-        ]);
+
+        if($request->ajax()){
+            return view('notifications',[
+                'notifications' => $notification
+            ]);
+        }else{
+            return redirect('/')->with('no_ajax', $request->path());
+        }
+
+        
     }
 
     /**

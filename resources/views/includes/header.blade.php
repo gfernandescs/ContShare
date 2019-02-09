@@ -34,7 +34,7 @@
                                         <i class="fa fa-angle-down pull-right"></i>
                                         <div class="user-mini pull-right">
                                             <span class="welcome">Bem-Vindo,</span>
-                                            <span>{{auth()->user()->name." ".auth()->user()->last_name}}</span>
+                                            <span>{{auth()->user()->name}}</span>
                                         </div>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -62,6 +62,40 @@
                         </div>
                     </div>
                 </div>
+                <div id="sidebar-navbar">
+                    <ul class="">
+                        <li title="Início" id="nav-index" class="index">
+                            <a href="/groups" >
+                            <i class="glyphicon glyphicon-home"></i>
+                            <span class="hidden-xs">Início</span>
+                            </a>
+                        </li>
+                                
+                        <li title="Perfil" id="nav-profile">
+                            <a href="{{url('/'.auth()->user()->id)}}" >
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="hidden-xs">Perfil</span>
+                            </a>
+                        </li>
+                        <li title="Novo Link">
+                            <a href="#"  data-toggle="modal" data-target="#modalSave">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span class="hidden-xs">Novo link</span>
+                            </a>
+                        </li>
+                         <li title="Pesquisar" id="nav-notifications" class="nav-li-mobile" style="display:none">
+                            <a href="/notificationUsers">
+                                 <i class="fa fa-bell"></i>
+                                 <span class="badge">{{$notifications > 0 ? $notifications : ''}}</span>
+                            </a>
+                        </li>
+                        <li title="Pesquisar" id="nav-searchconts" class="nav-li-mobile" style="display:none">
+                            <a href="mobile/searchConts">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>                       
+                    </ul>
+                </div>
             </div>
         </div>
     @else
@@ -76,7 +110,7 @@
 
                         </div>
                         <div class="col-xs-4 col-sm-8 top-panel-right">
-                            <a href="login/index.php?register=true" class="pull-right btn btn-default" style="height: 50px; margin-right: 20px;"><p style="margin-top: 10px">Cadastre-se</p></a>
+                            <a href="/login" class="pull-right btn btn-default" style="height: 50px; margin-right: 20px;"><p style="margin-top: 10px">Cadastre-se</p></a>
                             <button class="pull-right btn btn-default" style="width:100px; height: 50px; margin-right: 25px;" data-toggle='modal' data-target='#modalEnter'>Entrar</button>
                         </div>
                     </div>

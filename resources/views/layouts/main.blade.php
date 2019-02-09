@@ -43,20 +43,24 @@
                 <div id='search' class="search-conts">
                     <div class='input-group input-group-lg'>
                         <span class='input-group-addon' id='basic-addon2' style="padding-top:0; padding-bottom:0;"><i class='fa fa-search'></i></span>
-                        <input type='text' id='search-conts' onkeyup='searchConts(this.value)' class='form-control' placeholder='Pesquisar' aria-describedby='basic-addon2'>
+                        <input type='text' id='input-search-conts' onkeyup='searchConts(this.value)' class='form-control' placeholder='Pesquisar' aria-describedby='basic-addon2'>
                     </div>
                 </div>
                 <div class='preloader' style="display: none">
                     <img width='80px' src='img/loading.gif' class='devoops-getdata' alt='preloader'/>
-                </div>
-                 
-                <div id="ajax-content">                     
+                </div>  
+                <div id="ajax-content" class='row'>                     
                     @if(session('no_ajax'))
                         <script type="text/javascript">
                             $(document).ready(function () { 
-                                var ajax_url = "{{session('no_ajax')}}";
-                                LoadAjaxContent(ajax_url);
-                                history.pushState('', '', ''+ajax_url+'');
+                                var ajax_url = "{{session('no_ajax')}}";                                
+                                if(ajax_url == "groups" || ajax_url == "notificationUsers" || ajax_url == "searchConts"){
+                                    LoadAjaxContent("/groups");   
+                                }else{
+                                    LoadAjaxContent(ajax_url);
+                                    history.pushState('', '', ''+ajax_url+'');
+                                }
+                                
                             });
                         </script>
                     @else
@@ -70,7 +74,7 @@
                             });
                         </script>
                     @endif
-                </div>			
+                </div>		
 			</div>
 		</div>
 	</div>
@@ -82,7 +86,7 @@
 <script src="plugins/bootstrap-validator-master/dist/validator.min.js"></script>
 <!-- All functions for this theme + document.ready processing -->
 <script src="{{asset('js/devoops.js')}}" ></script>
-<script src="{{asset('js/ContShares.js')}}"></script>
+<script src="{{asset('js/contShare.js')}}"></script>
 <script src="{{asset('js/search.js')}}"></script>
 <script>
     var x = document.getElementById("search");

@@ -64,14 +64,83 @@
             </div>
             <div class="form">
                 <h2>Criar uma conta</h2>
-                <form action="#" method="POST">
-                    <input type="text" required name="name" placeholder="Nome"/>
-                    <input type="text" required name="last_name" placeholder="Sobrenome"/>
-                    <input type="password" required name="password" placeholder="Senha"/>
-                    <input type="email" required name="email" placeholder="Email"/>
+                <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
+                        {{ csrf_field() }}
 
-                    <input type="submit" name="cadastrar" value="Registrar" class="btn">
-                </form>
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control" name="name" placeholder="Nome" value="{{ old('name') }}">
+
+                                @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('last_name') ? ' has-error' : '' }}">
+
+                            <div class="col-md-6">
+                                <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Sobrenome" value="{{ old('last_name') }}">
+ 
+
+                                @if ($errors->has('last_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('last_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control" name="email" placeholder="E-mail" value="{{ old('email') }}">
+
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control" name="password" placeholder="Senha">
+
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirme a senha">
+
+                                @if ($errors->has('password_confirmation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-btn fa-user"></i> Cadastrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
             </div>
             <div id="cta" class="cta no-cta">
                 <a class="btn btn-link" href="{{ url('/password/reset') }}">Esqueceu sua senha?</a>

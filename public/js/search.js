@@ -62,13 +62,28 @@ function searchConts(value,id_user,profile) {
 		}else{
 			if(location.pathname != ""){
  				window.history.pushState('Object', 'ContShare', '/');
- 			}		
-	        xhr = $.ajax({
-		        url: '/searchConts/'+id_user+'/'+value,
-		        success: function(data) {
-		            $("#ajax-content").html(data);
-		        }
-        	}); 
+ 			}
+		    xhr = $.ajax({
+			    url: '/searchConts/'+id_user+'/'+value,
+			    success: function(data) {
+			        $("#ajax-content").html(data);
+			    }
+	        });
+		    
 		}		       
 	}
+}
+
+function searchContsMobile(value){
+	$('.mobile').show();
+	if(xhr != null){
+		abort();
+		xhr.abort();
+	}
+	xhr = $.ajax({
+		url: '/searchConts/'+-1+'/'+value,
+			success: function(data) {
+			$("#ajax-content-mobile").html(data);
+		}
+	});
 }

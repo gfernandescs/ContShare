@@ -16,12 +16,17 @@
 Route::auth();
 
 
-
 /*
 *Dashboard
 */
 Route::get('/',['uses' => 'PagesController@getIndex'])->name('home');
+
 Route::get('/grupo/{group}',['uses' => 'FileController@getFiles'])->name('files.showFile');
+
+Route::get('/searchConts', function (Request $request) {
+    return view('mobile.searchConts');
+    
+});
 
 /*****************************************************/
 
@@ -31,6 +36,7 @@ Route::get('/searchConts/{id}/{value}/{profile?}',['uses' => 'SearchController@s
 Route::get('/searchUsers/{value?}',['uses' => 'SearchController@searchUsers']);
 
 Route::get('/notificationUsers',['uses' => 'NotificationUsersController@index'])->name('NotificationUsers.index');
+
 /*****************************************************/
 
 /*
