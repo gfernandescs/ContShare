@@ -4,7 +4,7 @@ git clone https://github.com/gfernandescs/contShare.git;
 
 Na pasta do projeto, rodar "composer install";
 
-Configurar o arquivo .env;
+Criar e configurar o arquivo .env (usar como exemplo: .env.example);
 
 Importar o banco de dados (base_dados.sql) https://github.com/gfernandescs/contShare/blob/master/banco%20de%20dados/base_dados.sql;
 
