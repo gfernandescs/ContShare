@@ -6,7 +6,7 @@ Na pasta do projeto, rodar "composer install";
 
 Configurar o arquivo .env;
 
-Importar o banco de dados (base_dados.sql);
+Importar o banco de dados (base_dados.sql) https://github.com/gfernandescs/contShare/blob/master/banco%20de%20dados/base_dados.sql;
 
 # Laravel PHP Framework
 
